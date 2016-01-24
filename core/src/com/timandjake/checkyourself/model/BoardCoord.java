@@ -2,8 +2,6 @@ package com.timandjake.checkyourself.model;
 
 
 class BoardCoord {
-    public static char letters[] = {"abcdefghijklmnopqrstuvwxyz"};
-
     private int boardSize;
     /* x, y range between 1 and boardSize */
     private int x, y;
@@ -22,7 +20,7 @@ class BoardCoord {
         this.boardSize = bc.boardSize;
 
         setX(bc.getX());
-        setY(bc.setY());
+        setY(bc.getY());
     }
 
 
@@ -32,14 +30,6 @@ class BoardCoord {
 
     public int getY() {
         return y;
-    }
-
-    public int getAsAlgebraic() {
-        if(boardSize > letters.length) {
-            /* Not enough letters! */
-            throw new BoardSizeException("Cannot produce algebraic representation for current board size");
-        }
-        return new Character(letters[x]).toString() + y;
     }
 
 
@@ -69,9 +59,7 @@ class BoardCoord {
         yDiff = bc.getY() - y;
         
         try {
-            return BoardCoord(boardSize,
-                              bc.getX() + xDiff,
-                              bc.getY() + yDiff);
+            return new BoardCoord(boardSize, bc.getX() + xDiff, bc.getY() + yDiff);
 
         } catch(IllegalArgumentException e) {}
 
@@ -87,7 +75,7 @@ class BoardCoord {
     public boolean equals(Object o) {
         BoardCoord bc;
 
-        if(o instanceof bc) {
+        if(o instanceof BoardCoord) {
             bc = (BoardCoord)o;
             if(bc.x == x && bc.y == y) {
                 return true;

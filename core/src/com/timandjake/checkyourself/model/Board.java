@@ -1,6 +1,10 @@
 package com.timandjake.checkyourself.model;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.lang.Iterable;
 
 
 public class Board implements Iterable<Piece> {
@@ -27,7 +31,7 @@ public class Board implements Iterable<Piece> {
                 case DOWN:
                     return PieceDirection.UP;
                 default:
-                    return new IllegalStateException("Only UP and DOWN possible");
+                    throw new IllegalStateException("Only UP and DOWN possible");
             }
         }
             
@@ -70,7 +74,8 @@ public class Board implements Iterable<Piece> {
         /* Create white pieces */
         for(int i = startRow; i < endRow; i++) {
             for(int j = i % 2 + 1; j < boardSize; j += 2) {
-                boardMap.put(Piece.Type.WHITE, new BoardCoord(boardSize, j, i));
+                BoardCoord curr = new BoardCoord(boardSize, j, i);
+                boardMap.put(curr, new Piece(type, curr));
             }
         }
     }
@@ -80,7 +85,7 @@ public class Board implements Iterable<Piece> {
     }
 
     /* Returns null if no piece at bc */
-    public boolean getPiece(BoardCoord bc) {
+    public Piece getPiece(BoardCoord bc) {
         return boardMap.get(bc);
     }
 
@@ -90,14 +95,14 @@ public class Board implements Iterable<Piece> {
     }
 
 
-    public void movePiece(Piece p, BoardCoord dest) {
+    public void movePiece(Piece p, BoardCoord dest) throws InvalidMoveException {
         Collection<BoardCoord> validMoves;
 
         validMoves = getValidMoves(p);
         if(validMoves.contains(dest)) {
             boardMap.remove(p.getPos());
             p.setPos(dest);
-            boardMap.put(p.getPos());
+            boardMap.put(p.getPos(), p);
         }
         else {
             throw new InvalidMoveException("Invalid move requested");
@@ -161,45 +166,43 @@ public class Board implements Iterable<Piece> {
     private Collection<BoardCoord> getAdjacentSquares(Piece p) {
         if(p.isWhite() && !p.isKing())
         {
-            return getAdjacentSquaresDir(whiteDirection);
+            return getAdjacentSquaresDir(p.getPos(), whiteDirection);
         }
         if(p.isBlack() && !p.isKing())
         {
-            return getAdjacentSquaresDir(whiteDirection.opposite());
+            return getAdjacentSquaresDir(p.getPos(), whiteDirection.opposite());
         }
         if(p.isKing())
         {
             Collection<BoardCoord> moves;
 
-            moves = getAdjacentSquaresDir(whiteDirection);
-            return moves.addAll(getAdjacentSquaresDir(whiteDirection.opposite());
+            moves = getAdjacentSquaresDir(p.getPos(), whiteDirection);
+            moves.addAll(getAdjacentSquaresDir(p.getPos(), whiteDirection.opposite()));
+            return moves;
         }
+
+        return null;
     }
 
 
     private Collection<BoardCoord> getAdjacentSquaresDir(BoardCoord bc, PieceDirection dir) {
-        ArrayList<BoardCoord> moves = new ArrayList<BoardCoord>();
+        ArrayList<BoardCoord> squares = new ArrayList<BoardCoord>();
+        BoardCoord temp;
         int dirVal = dir.getVal();
 
         /* Check for left of piece */
         try {
-            curr = new BoardCoord(boardSize, p.getPos().getX() - 1, p.getPos().getY() + dirVal);
-            squares.add(curr);
-            }
+            temp = new BoardCoord(boardSize, bc.getX() - 1, bc.getY() + dirVal);
+            squares.add(temp);
         } catch(IllegalArgumentException e) {}
 
         /* Check for right of piece */
         try {
-            curr = new BoardCoord(boardSize, p.getPos().getX() + 1, p.getPos().getY() + dirVal);
-            squares.add(curr);
-            }
+            temp = new BoardCoord(boardSize, bc.getX() + 1, bc.getY() + dirVal);
+            squares.add(temp);
         } catch(IllegalArgumentException e) {}
 
         return squares;
     }
 }
 
-
-
-
-    

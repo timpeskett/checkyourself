@@ -1,6 +1,5 @@
 package com.timandjake.checkyourself.model;
 
-import com.badlogic.graphics.Texture;
 import java.util.HashMap;
 
 
@@ -22,7 +21,7 @@ public class Piece {
 
 
     public boolean isWhite() {
-        return type == WHITE || type == WHITEKING;
+        return type == Type.WHITE || type == Type.WHITEKING;
     }
 
     public boolean isBlack() {
@@ -30,7 +29,7 @@ public class Piece {
     }
 
     public boolean isKing() {
-        return type == WHITEKING || type == BLACKKING;
+        return type == Type.WHITEKING || type == Type.BLACKKING;
     }
 
     /* Returns true if this piece and the passed in piece are enemies. */
@@ -63,10 +62,10 @@ public class Piece {
     static {
         imgNames = new HashMap<Type, String>();
 
-        imgNames.put(WHITE, "white_piece.img");
-        imgNames.put(BLACK, "black_piece.img");
-        imgNames.put(WHITEKING, "white_king_piece.img");
-        imgNames.put(BLACKKING, "black_king_piece.img");
+        imgNames.put(Type.WHITE, "white_piece.img");
+        imgNames.put(Type.BLACK, "black_piece.img");
+        imgNames.put(Type.WHITEKING, "white_king_piece.img");
+        imgNames.put(Type.BLACKKING, "black_king_piece.img");
     }
 }
 

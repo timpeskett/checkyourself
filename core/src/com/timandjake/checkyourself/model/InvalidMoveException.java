@@ -1,4 +1,4 @@
-package com.timandjake.checkyourself;
+package com.timandjake.checkyourself.model;
 
 public class InvalidMoveException extends Exception {
     public InvalidMoveException(String message) {
