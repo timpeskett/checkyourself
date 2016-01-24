@@ -18,6 +18,7 @@ public class Main extends Game {
 
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 480;
+	public static final int BOARD_SIZE = 8;
 
 
 	
