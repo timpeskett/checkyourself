@@ -8,9 +8,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Check Yourself";
-		config.width = 800;
-		config.height = 480;
+		config.width = Main.WIDTH;
+		config.height = Main.HEIGHT;
 		new LwjglApplication(new Main(), config);
-
 	}
 }
