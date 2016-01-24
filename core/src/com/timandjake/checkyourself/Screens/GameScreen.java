@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.timandjake.checkyourself.Main;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.timandjake.checkyourself.model.Board;
 
 public class GameScreen implements Screen {
 
@@ -14,11 +15,13 @@ public class GameScreen implements Screen {
 	private OrthographicCamera gameCam;
 	private float gameTimer;
 	private GlyphLayout layout;
+	private Board board;
 
 	public GameScreen(Main game) {
 
 		this.game = game;
 		gameTimer = 0;
+		board = new Board(8, Board.PieceDirection.DOWN);
 		layout = new GlyphLayout();
 		gameCam = new OrthographicCamera();
 		gameCam.setToOrtho(false, Main.WIDTH, Main.HEIGHT);
