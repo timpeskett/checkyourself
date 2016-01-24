@@ -8,6 +8,7 @@ import com.timandjake.checkyourself.Main;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.timandjake.checkyourself.model.Board;
+import com.badlogic.gdx.graphics.Texture;
 
 public class GameScreen implements Screen {
 
@@ -17,6 +18,10 @@ public class GameScreen implements Screen {
 	private GlyphLayout layout;
 	private Board board;
 
+	private Texture whitePiece;
+	private Texture redPiece;
+	private Texture potentialPiece;;
+
 	public GameScreen(Main game) {
 
 		this.game = game;
@@ -25,6 +30,10 @@ public class GameScreen implements Screen {
 		layout = new GlyphLayout();
 		gameCam = new OrthographicCamera();
 		gameCam.setToOrtho(false, Main.WIDTH, Main.HEIGHT);
+
+		whitePiece = game.manager.get("white_piece.png");
+		redPiece = game.manager.get("red_piece.png");
+		potentialPiece = game.manager.get("potential_piece.png");
 
 	}
 
