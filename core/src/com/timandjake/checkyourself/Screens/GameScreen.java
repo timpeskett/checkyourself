@@ -12,16 +12,12 @@ public class GameScreen implements Screen {
 
 	private Main game;
 	private OrthographicCamera gameCam;
-	private Viewport gamePort;
 
 	public GameScreen(Main game) {
 
 		this.game = game;
 		gameCam = new OrthographicCamera();
-		gamePort = new FitViewport(480, 800);
-
-		gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
-
+		gameCam.setToOrtho(false, Main.WIDTH, Main.HEIGHT);
 	}
 
 	@Override
@@ -38,9 +34,7 @@ public class GameScreen implements Screen {
 	public void update(float delta) {}
 
 	@Override
-	public void resize(int width, int height) {
-		gamePort.update(width, height);
-	}
+	public void resize(int width, int height) {}
 
 	@Override
 	public void pause() {}
