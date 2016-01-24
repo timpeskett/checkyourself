@@ -52,6 +52,8 @@ public class Board implements Iterable<Piece> {
      *      this is 'UP' then the white pieces will start at the bottom.
      */
     public Board(int boardSize, PieceDirection whiteDirection) {
+        Piece.Type top, bottom;
+
         if(boardSize < 4) {
             throw new IllegalArgumentException("Board size is too small");
         }
@@ -64,16 +66,24 @@ public class Board implements Iterable<Piece> {
 
         boardMap = new HashMap<BoardCoord, Piece>();
 
-        createPieces(Piece.Type.BLACK, 1, boardSize / 2 - 1);
-        createPieces(Piece.Type.WHITE, boardSize / 2 + 2, boardSize);
+        if(whiteDirection == PieceDirection.UP) {
+            bottom = Piece.Type.WHITE;
+            top = Piece.Type.BLACK;
+        }
+        else {
+            bottom = Piece.Type.BLACK;
+            top = Piece.Type.WHITE;
+        }
+
+        createPieces(bottom, 1, boardSize / 2 - 1);
+        createPieces(top, boardSize / 2 + 2, boardSize);
     }
 
 
     /* Used to create black and white pieces separately */
     private void createPieces(Piece.Type type, int startRow, int endRow) {
-        /* Create white pieces */
         for(int i = startRow; i <= endRow; i++) {
-            for(int j = i % 2 + 1; j <= boardSize; j += 2) {
+            for(int j = (i - 1) % 2 + 1; j <= boardSize; j += 2) {
                 BoardCoord curr = new BoardCoord(boardSize, j, i);
                 boardMap.put(curr, new Piece(type, curr));
             }
@@ -101,11 +111,22 @@ public class Board implements Iterable<Piece> {
         return !boardMap.containsKey(bc);
     }
 
+    public int getBoardSize() {
+        return boardSize;
+    }
+
     public void movePiece(Piece p, BoardCoord dest) throws InvalidMoveException {
         Collection<BoardCoord> validMoves;
 
         validMoves = getValidMoves(p);
         if(validMoves.contains(dest)) {
+            /* Remove a captured piece if applicable */
+            if(isCapture(p, dest)) {
+                BoardCoord captured = p.getPos().getCapturedCoord(dest);
+                boardMap.remove(captured);
+            }
+
+            /* Move the piece */
             boardMap.remove(p.getPos());
             p.setPos(dest);
             boardMap.put(p.getPos(), p);
@@ -126,7 +147,11 @@ public class Board implements Iterable<Piece> {
         attackingPieces = getAttackingPieces();
 
         if(attackingPieces.isEmpty()) {
-            validMoves.addAll(getAdjacentSquares(p));
+            for(BoardCoord bc : getAdjacentSquares(p)) {
+                if(isEmpty(bc)) {
+                    validMoves.add(bc);
+                }
+            }
         }
         else if(attackingPieces.contains(p)) {
             for(BoardCoord bc : getPieceAttacks(p)) {
@@ -209,6 +234,21 @@ public class Board implements Iterable<Piece> {
         } catch(IllegalArgumentException e) {}
 
         return squares;
+    }
+
+
+    private boolean isCapture(Piece p, BoardCoord dest) {
+        BoardCoord between;
+
+        between = p.getPos().getCapturedCoord(dest);
+
+        if(between != null) {
+            if(!isEmpty(between) && getPiece(between).isEnemy(p)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

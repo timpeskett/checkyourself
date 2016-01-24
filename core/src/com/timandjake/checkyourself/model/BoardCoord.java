@@ -1,7 +1,8 @@
 package com.timandjake.checkyourself.model;
 
+import java.lang.Math;
 
-public class BoardCoord {
+class BoardCoord {
     private int boardSize;
     /* x, y range between 1 and boardSize */
     private int x, y;
@@ -60,8 +61,26 @@ public class BoardCoord {
         
         try {
             return new BoardCoord(boardSize, bc.getX() + xDiff, bc.getY() + yDiff);
-
         } catch(IllegalArgumentException e) {}
+
+        return null;
+    }
+
+
+    /* Takes this coord and the passed in coord, and returns the board coord
+     * that is in the middle of the two. The two coordinates must be on a
+     * diagonal with only one square in between them. This corresponds to the
+     * square of a captured piece given the capturing piece and the resulting
+     * square. */
+    public BoardCoord getCapturedCoord(BoardCoord bc) {
+        int xDiff, yDiff;
+
+        xDiff = bc.getX() - x;
+        yDiff = bc.getY() - y;
+
+        if(Math.abs(xDiff) == 2 && Math.abs(yDiff) == 2) {
+            return new BoardCoord(boardSize, x + xDiff / 2, y + yDiff / 2);
+        }
 
         return null;
     }
