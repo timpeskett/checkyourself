@@ -41,11 +41,6 @@ public class MenuScreen implements Screen {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        fadeTimer = fadeTimer >= 1 ? 0 : fadeTimer + delta;
-
-        game.font.setColor(0,0,0, 1 * fadeTimer);
-        layout.setText(game.font, "CLICK TO BEGIN");
-
         menuCam.update();
         game.batch.setProjectionMatrix(menuCam.combined);
 
@@ -60,7 +55,12 @@ public class MenuScreen implements Screen {
         }
 	}
 
-	public void update(float delta) {}
+	public void update(float delta) {
+		fadeTimer = fadeTimer >= 1 ? 0 : fadeTimer + delta;
+
+        game.font.setColor(0,0,0, 1 * fadeTimer);
+        layout.setText(game.font, "CLICK TO BEGIN");
+	}
 
 	@Override
 	public void resize(int width, int height) {}

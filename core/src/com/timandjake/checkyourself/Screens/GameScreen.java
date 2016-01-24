@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.GL20;
 import com.timandjake.checkyourself.Main;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class GameScreen implements Screen {
 
@@ -25,10 +26,27 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+
 		update(delta);
 
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        //Drawing of the checkerboard
+        game.shapeRenderer.begin(ShapeType.Filled);
+        game.shapeRenderer.setColor(0, 0, 0, 1);
+        for(int ii = 0; ii < 8; ii++) {
+        	for(int jj = 0; jj < 8; jj++) {
+        		game.shapeRenderer.rect(Main.WIDTH - Main.HEIGHT + (jj * Main.HEIGHT / 8), ii * Main.HEIGHT / 8, Main.HEIGHT / 8, Main.HEIGHT / 8);
+        		if(game.shapeRenderer.getCurrentType() == ShapeType.Filled && jj != 7) {
+        			game.shapeRenderer.set(ShapeType.Line);
+        		} else if(game.shapeRenderer.getCurrentType() == ShapeType.Line && jj != 7) {
+        			game.shapeRenderer.set(ShapeType.Filled);
+        		}
+
+        	}
+        }
+        game.shapeRenderer.end();
 	}
 
 	public void update(float delta) {}
