@@ -12,7 +12,7 @@ public class Board implements Iterable<Piece> {
         /* BoardCoord 1,1 is the bottom left of the board, and so DOWN will have
          * the y coordinate *decreasing* and UP will have the y coordinate
          * *increasing* */
-        UP(-1), DOWN(1);
+        UP(1), DOWN(-1);
 
         private int val; 
         
@@ -65,15 +65,15 @@ public class Board implements Iterable<Piece> {
         boardMap = new HashMap<BoardCoord, Piece>();
 
         createPieces(Piece.Type.BLACK, 1, boardSize / 2 - 1);
-        createPieces(Piece.Type.WHITE, boardSize / 2 + 1, boardSize);
+        createPieces(Piece.Type.WHITE, boardSize / 2 + 2, boardSize);
     }
 
 
     /* Used to create black and white pieces separately */
     private void createPieces(Piece.Type type, int startRow, int endRow) {
         /* Create white pieces */
-        for(int i = startRow; i < endRow; i++) {
-            for(int j = i % 2 + 1; j < boardSize; j += 2) {
+        for(int i = startRow; i <= endRow; i++) {
+            for(int j = i % 2 + 1; j <= boardSize; j += 2) {
                 BoardCoord curr = new BoardCoord(boardSize, j, i);
                 boardMap.put(curr, new Piece(type, curr));
             }
@@ -91,7 +91,7 @@ public class Board implements Iterable<Piece> {
 
 
     public boolean isEmpty(BoardCoord bc) {
-        return boardMap.containsKey(bc);
+        return !boardMap.containsKey(bc);
     }
 
 
@@ -151,7 +151,7 @@ public class Board implements Iterable<Piece> {
         ArrayList<BoardCoord> attacks = new ArrayList<BoardCoord>();
 
         for(BoardCoord adj : getAdjacentSquares(p)) {
-            if(!isEmpty(adj) && p.getPos().getJumpCoord(adj) != null) {
+            if(!isEmpty(adj) && getPiece(adj).isEnemy(p) && p.getPos().getJumpCoord(adj) != null) {
                 attacks.add(adj);
             }
         }

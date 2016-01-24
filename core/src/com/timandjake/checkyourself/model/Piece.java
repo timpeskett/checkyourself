@@ -52,6 +52,10 @@ public class Piece {
         return false;
     }
 
+    public String toString() {
+        return "Piece: X -- " + getPos().getX() + " Y -- " + getPos().getY();
+    }
+
     /* Can't be called from outside this package! */
     protected void setPos(BoardCoord bc) {
         pos = new BoardCoord(bc);
