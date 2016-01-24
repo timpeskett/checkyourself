@@ -84,6 +84,10 @@ public class BoardCoord {
 
         return false;
     }
+
+    public String toString() {
+        return "BoardCoord: { x: " + x + ", y: " + y + "}";
+    }
 }
 
 

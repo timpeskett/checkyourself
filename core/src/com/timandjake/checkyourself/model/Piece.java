@@ -37,6 +37,15 @@ public class Piece {
         return isBlack() == p.isWhite();
     }
 
+    /* Convenience getter methods */
+    public int getX() {
+        return getPos().getX();
+    }
+
+    public int getY() {
+        return getPos().getY();
+    }
+
     public BoardCoord getPos() {
         return pos;
     }
@@ -53,7 +62,7 @@ public class Piece {
     }
 
     public String toString() {
-        return "Piece: X -- " + getPos().getX() + " Y -- " + getPos().getY();
+        return "Piece: { pos: " + getPos().toString() + ", " + " type: " + type.name() + " }";
     }
 
     /* Can't be called from outside this package! */

@@ -85,15 +85,21 @@ public class Board implements Iterable<Piece> {
     }
 
     /* Returns null if no piece at bc */
+    public Piece getPiece(int x, int y) {
+        return getPiece(new BoardCoord(boardSize, x, y));
+    }
+
     public Piece getPiece(BoardCoord bc) {
         return boardMap.get(bc);
     }
 
+    public boolean isEmpty(int x, int y) {
+        return isEmpty(new BoardCoord(boardSize, x, y));
+    }
 
     public boolean isEmpty(BoardCoord bc) {
         return !boardMap.containsKey(bc);
     }
-
 
     public void movePiece(Piece p, BoardCoord dest) throws InvalidMoveException {
         Collection<BoardCoord> validMoves;
