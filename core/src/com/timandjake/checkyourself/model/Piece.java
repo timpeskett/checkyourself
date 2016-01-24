@@ -46,6 +46,15 @@ public class Piece {
         return getPos().getY();
     }
 
+    public void king() {
+        if(isBlack()) {
+            type = Type.BLACKKING;
+        }
+        else {
+            type = Type.WHITEKING;
+        }
+    }
+
     public BoardCoord getPos() {
         return pos;
     }

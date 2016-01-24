@@ -2,7 +2,7 @@ package com.timandjake.checkyourself.model;
 
 import java.lang.Math;
 
-class BoardCoord {
+public class BoardCoord {
     private int boardSize;
     /* x, y range between 1 and boardSize */
     private int x, y;

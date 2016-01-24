@@ -130,6 +130,11 @@ public class Board implements Iterable<Piece> {
             boardMap.remove(p.getPos());
             p.setPos(dest);
             boardMap.put(p.getPos(), p);
+
+            /* Check if KINGed */
+            if(getKingRow(p) == dest.getY()) {
+                p.king();
+            }
         }
         else {
             throw new InvalidMoveException("Invalid move requested");
@@ -249,6 +254,24 @@ public class Board implements Iterable<Piece> {
         }
 
         return false;
+    }
+
+    
+    private int getKingRow(Piece p) {
+        int top = boardSize, bottom = 1;
+
+        if(p.isWhite() && whiteDirection == PieceDirection.UP) {
+            return top;
+        }
+        else if(p.isWhite() && whiteDirection == PieceDirection.DOWN) {
+            return bottom;
+        }
+        else if(p.isBlack() && whiteDirection == PieceDirection.UP) {
+            return bottom;
+        }
+        else {
+            return top;
+        }
     }
 }
 
