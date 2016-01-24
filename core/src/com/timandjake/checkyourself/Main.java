@@ -30,6 +30,9 @@ public class Main extends Game {
 
 		manager = new AssetManager();
 		manager.load("title_screen.png", Texture.class);
+		manager.load("white_piece.png", Texture.class);
+		manager.load("red_piece.png", Texture.class);
+		manager.load("potential_piece.png", Texture.class);
 		manager.finishLoading();
 
 		setScreen(new MenuScreen(this));
@@ -44,5 +47,6 @@ public class Main extends Game {
 	public void dispose() {
 		batch.dispose();
 		manager.dispose();
+		shapeRenderer.dispose();
 	}
 }
