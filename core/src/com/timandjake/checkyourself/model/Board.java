@@ -187,7 +187,11 @@ public class Board implements Iterable<Piece> {
         ArrayList<BoardCoord> attacks = new ArrayList<BoardCoord>();
 
         for(BoardCoord adj : getAdjacentSquares(p)) {
-            if(!isEmpty(adj) && getPiece(adj).isEnemy(p) && p.getPos().getJumpCoord(adj) != null) {
+            if(!isEmpty(adj) && /* Check that diagonal square is empty */
+                getPiece(adj).isEnemy(p) && /* Check that diagonal square contains enemy piece */
+                p.getPos().getJumpCoord(adj) != null && /* Don't jump off board */
+                isEmpty(p.getPos().getJumpCoord(adj))) { /* Jump only into empty square */
+
                 attacks.add(adj);
             }
         }
